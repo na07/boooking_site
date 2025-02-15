@@ -1,0 +1,22 @@
+# Игнорируем базу данных SQLite
+db.sqlite3
+__pycache__/
+*.pyc
+*.pyo
+
+# Конфиги IDE
+.vscode/
+.idea/
+
+# Логи и временные файлы
+*.log
+*.swp
+*.swo
+
+# Статические файлы и медиа
+staticfiles/
+media/
+
+# Виртуальное окружение
+venv/
+.env
