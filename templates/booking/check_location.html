@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+      <h2>Чек всех локаций</h2>
+      <form method = 'get'>
+          <h2>start</h2>
+        <input type="date" name = 'start_date'>
+          <h2>end</h2>
+        <input type="date" name = 'end_date'>
+          <h2>Опубликовать</h2>
+        <button type = 'submit'>wait</button>
+      </form>
+        <h2>Список локаций</h2>
+        {% for location in locations %}
+        {{ location.title }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+
+</body>
+</html>

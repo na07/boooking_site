@@ -20,11 +20,10 @@ class Location(models.Model):
 class Booking(models.Model):
     location = models.ForeignKey(Location,
                                  related_name="bookings",
-                                 on_delete=models.CASCADE,
-                                 validators=[MinLengthValidator(3, message="минимум 3")])
+                                 on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="bookings", on_delete=models.CASCADE)
     start_date = models.DateField()
-    end_field = models.DateField()
+    end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -8,11 +8,5 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'location', 'start_date', 'created_at', 'end_field')
+    list_display = ('user', 'location', 'start_date', 'created_at', 'end_date')
     list_filter = ('start_date', 'location')
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('User')
-    search_fields = ('User')
-    # тут хз если честно
