@@ -27,4 +27,4 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.start_date)
+        return str(self.start_date) + self.user.username
