@@ -1,5 +1,5 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Location
 from datetime import datetime
 
@@ -25,3 +25,11 @@ def check_location_view(request:HttpRequest) -> HttpResponse:
     else:
         filtered_locations = locations
     return render(request, "booking/check_location.html", {"locations":filtered_locations})
+
+def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
+    try:
+        location = Location.objects.get(pk=location_id)
+    except Location.DoesNotExist:
+        return redirect("booking:check_location")
+
+    return render(request, "booking/detail_location.html", {"location":location})
