@@ -21,10 +21,26 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'booking:check_location' %}">locations</a>
         </li>
-        {% if not user.is_authenticated %}
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'accounts:registration_page' %}">registration</a>
+            <form action="{% url 'accounts:logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="nav-link btn btn-link" style="border: none; background: none; color: inherit; cursor: pointer;">
+                    Logout
+                </button>
+            </form>
         </li>
+        {% else %}
+        <li class="nav-item">
+            {% csrf_token %}
+            <a class="nav-link" href="{% url 'accounts:registration_page' %}">Registration</a>
+        </li>
+
+        <li class="nav-item">
+            {% csrf_token %}
+            <a class="nav-link" href="{% url 'accounts:login_page' %}">Login</a>
+        </li>
+
         {% endif %}
       </ul>
       <form class="d-flex" role="search">

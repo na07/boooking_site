@@ -31,3 +31,4 @@ def login_page(request:HttpRequest) -> HttpResponse:
                     request.session.set_expiry(0)
                 return redirect("booking:home")
     return render(request, "accounts/login_page.html", {'form': form})
+
