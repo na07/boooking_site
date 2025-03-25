@@ -17,10 +17,44 @@
       <p class="text-start fs-5">{{ location.capacity }}</p>
       <h4>Cost:</h4>
       <p class="text-start fs-5">{{ location.cost }}</p>
-      <button class="btn btn-secondary">Book</button>
+      <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book</button>
     </div>
   </div>
 </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Booking</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">start date</span>
+                <input type="date" class="form-control" name="start_date">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">end date</span>
+                <input type="date" class="form-control" name="end_date">
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center;">
+            <button class="btn btn-secondary">Book</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

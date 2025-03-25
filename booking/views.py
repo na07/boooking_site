@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-from .models import Location
+from .models import Location, Booking
 from datetime import datetime
+from django.contrib import messages
 
 
 def home_view(request:HttpRequest) -> HttpResponse:
@@ -27,9 +29,19 @@ def check_location_view(request:HttpRequest) -> HttpResponse:
     return render(request, "booking/check_location.html", {"locations":filtered_locations})
 
 def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
-    try:
-        location = Location.objects.get(pk=location_id)
-    except Location.DoesNotExist:
-        return redirect("booking:check_location")
+    if request.method == "GET":
+        try:
+            location = Location.objects.get(pk=location_id)
+        except Location.DoesNotExist:
+            return redirect("booking:check_location")
 
-    return render(request, "booking/detail_location.html", {"location":location})
+        return render(request, "booking/detail_location.html", {"location":location})
+    elif request.method == "POST":
+        start_date = request.POST.get('start_date', None)
+        end_date = request.POST.get('end_date', None)
+        print(start_date, end_date, "ffff")
+        try:
+            booking = Booking.objects.create(location_id=location_id, user=request.user, start_date=start_date, end_date=end_date)
+        except ValidationError as u:
+            messages.error(request, u.message)
+        return redirect("booking:detail_location", location_id)
