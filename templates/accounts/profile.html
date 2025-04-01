@@ -1,0 +1,61 @@
+{% extends "base/base.html" %}
+
+{% load crispy_forms_filters %}
+{% block title %} профиль
+{% endblock %}
+
+
+
+
+
+
+{% for booking in bookings %}
+{{ booking.user }}
+{{ booking.location }}
+{{ booking.start_date }}
+{{ booking.end_date }}
+
+
+{% endfor %}
+
+
+
+{% block content %}
+
+
+
+<div style="display: flex; justify-content: center; height: 20vh;">
+    <div class="card" style="width: 18rem;">
+      <h1 style="text-align: center">Profile</h1>
+      <div class="card-body" style="align-items: center">
+        <ol>
+            <li class="card-text" >{{ user.username }}</li>
+            <li class="card-text" >{{ user.first_name }}</li>
+            <li class="card-text" >{{ user.last_name }}</li>
+            <li class="card-text" >{{ user.email }}</li>
+        </ol>
+      </div>
+    </div>
+</div>
+
+
+
+<div style="display: flex; justify-content: center; align-items: center; height: 20vh;">
+    <div class="card" style="width: 30rem;">
+      <h1 style="text-align: center">Profile</h1>
+      <div class="card-body" style="align-items: center">
+        {% for booking in bookings %}
+        {{ booking.user }}
+        {{ booking.location }}
+        {{ booking.start_date }}
+        {{ booking.end_date }}
+        {% endfor %}
+      </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

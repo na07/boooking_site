@@ -1,5 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
+
+from booking.models import Booking
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth import login, authenticate
 
@@ -31,4 +34,10 @@ def login_page(request:HttpRequest) -> HttpResponse:
                     request.session.set_expiry(0)
                 return redirect("booking:home")
     return render(request, "accounts/login_page.html", {'form': form})
+
+
+@login_required
+def profile_page(request:HttpRequest) -> HttpResponse:
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, "accounts/profile.html", {"bookings": bookings})
 

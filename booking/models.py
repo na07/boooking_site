@@ -27,6 +27,7 @@ class Booking(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
+    confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.start_date) + self.user.username
