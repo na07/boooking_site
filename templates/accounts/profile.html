@@ -40,19 +40,36 @@
 
 
 
-<div style="display: flex; justify-content: center; align-items: center; height: 20vh;">
-    <div class="card" style="width: 30rem;">
-      <h1 style="text-align: center">Profile</h1>
-      <div class="card-body" style="align-items: center">
-        {% for booking in bookings %}
-        {{ booking.user }}
-        {{ booking.location }}
-        {{ booking.start_date }}
-        {{ booking.end_date }}
-        {% endfor %}
-      </div>
+<div style="display: flex; justify-content: center; align-items: center; height: auto; padding: 2rem;">
+  <div class="card" style="width: 60rem; padding: 2rem; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+    <h1 style="margin-bottom: 1rem;">Profile</h1>
+
+    <div style="display: flex; justify-content: center;">
+      <table style="border-collapse: collapse; text-align: left; font-family: sans-serif; min-width: 80%;">
+        <thead>
+          <tr>
+            <th style="border-bottom: 2px solid #ddd; padding: 0.75rem;">User</th>
+            <th style="border-bottom: 2px solid #ddd; padding: 0.75rem;">Location</th>
+            <th style="border-bottom: 2px solid #ddd; padding: 0.75rem;">Start Date</th>
+            <th style="border-bottom: 2px solid #ddd; padding: 0.75rem;">End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in bookings %}
+          <tr>
+            <td style="padding: 0.75rem;">{{ booking.user }}</td>
+            <td style="padding: 0.75rem;">{{ booking.location }}</td>
+            <td style="padding: 0.75rem;">{{ booking.start_date }}</td>
+            <td style="padding: 0.75rem;">{{ booking.end_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
+
+
 
 
 
