@@ -1,9 +1,14 @@
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.utils.crypto import get_random_string
+
 from .models import Location, Booking
 from datetime import datetime
 from django.contrib import messages
+from django.core.mail import send_mail
+from config import settings
 
 
 def home_view(request:HttpRequest) -> HttpResponse:
@@ -42,6 +47,31 @@ def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
         print(start_date, end_date, "ffff")
         try:
             booking = Booking.objects.create(location_id=location_id, user=request.user, start_date=start_date, end_date=end_date)
+            token = get_random_string(length=16)
+            booking.activation_token = token
+            booking.save()
+            url = f"{request.scheme}://{request.get_host()}" \
+                  f"{reverse('booking:activate', args=[token, booking.id])}"
+            send_mail(
+                subject='Тест от Django',
+                message='Для активации перейдите по сыллке' + url,
+                from_email= settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[request.user.email],
+                fail_silently=False,
+            )
         except ValidationError as u:
             messages.error(request, u.message)
         return redirect("booking:detail_location", location_id)
+
+def booking_activation_view(request:HttpRequest, token:str, booking_id:int):
+    if request.method == "GET":
+        try:
+            booking = Booking.objects.get(pk=booking_id)
+            if booking.activation_token == token:
+                booking.confirmed = True
+                booking.save()
+                messages.success(request, "confirmed")
+        except Booking.DoesNotExist:
+            pass
+    return redirect("booking:check_location")
+

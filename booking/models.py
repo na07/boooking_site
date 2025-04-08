@@ -4,6 +4,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+
 User = get_user_model()
 
 # Create your models here.
@@ -28,6 +29,8 @@ class Booking(models.Model):
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     confirmed = models.BooleanField(default=False)
+    activation_token = models.CharField(max_length=16, null=True, blank=True)
+
 
     def __str__(self):
         return str(self.start_date) + self.user.username
@@ -38,7 +41,7 @@ class Booking(models.Model):
 
         if Booking.objects.filter(
             (models.Q(start_date__lte=self.end_date) & models.Q(end_date__gte=self.start_date))
-        ).exists():
+        ).exclude(pk=self.pk).exists():
             raise ValidationError(_("Этот период уже забронирован."))
 
     def save(self, *args, **kwargs):
