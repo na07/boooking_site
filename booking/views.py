@@ -17,21 +17,36 @@ def home_view(request:HttpRequest) -> HttpResponse:
 def check_location_view(request:HttpRequest) -> HttpResponse:
     start_date = request.GET.get('start_date', None)
     end_date = request.GET.get('end_date', None)
+    max_cost = request.GET.get("max_cost", None)
+    min_cost = request.GET.get("min_cost", None)
+    min_capacity = request.GET.get("min_capacity", None)
+    max_capacity = request.GET.get("max_capacity", None)
     print(start_date, end_date)
     locations = Location.objects.all()
-    filtered_locations = []
     if start_date and end_date:
         start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
         end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-        for location in locations:
-            for booking in location.bookings.all():
-                if not (end_date < booking.start_date or start_date > booking.end_date):
-                    break
-            else:
-                filtered_locations.append(location)
-    else:
-        filtered_locations = locations
-    return render(request, "booking/check_location.html", {"locations":filtered_locations})
+        locations = locations.exclude(
+            bookings__start_date__lte=end_date,
+            bookings__end_date__gte=start_date
+        )
+    if max_cost:
+        locations = locations.filter(
+            cost__lte=max_cost
+        )
+    if min_cost:
+        locations = locations.filter(
+            cost__gte=min_cost
+        )
+    if max_capacity:
+        locations = locations.filter(
+            capacity__lte=max_capacity
+        )
+    if min_capacity:
+        locations = locations.filter(
+            capacity__gte=min_capacity
+        )
+    return render(request, "booking/check_location.html", {"locations":locations})
 
 def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
     if request.method == "GET":
@@ -44,6 +59,7 @@ def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
     elif request.method == "POST":
         start_date = request.POST.get('start_date', None)
         end_date = request.POST.get('end_date', None)
+        email = request.POST.get("email", None)
         print(start_date, end_date, "ffff")
         try:
             booking = Booking.objects.create(location_id=location_id, user=request.user, start_date=start_date, end_date=end_date)
@@ -56,7 +72,7 @@ def detail_location_view(request:HttpRequest, location_id:int) -> HttpResponse:
                 subject='Тест от Django',
                 message='Для активации перейдите по сыллке' + url,
                 from_email= settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[request.user.email],
+                recipient_list=[email],
                 fail_silently=False,
             )
         except ValidationError as u:

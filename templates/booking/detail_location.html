@@ -34,15 +34,39 @@
         <form method="post">
           {% csrf_token %}
           <div class="row">
+            <div class="col-12">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">username</span>
+                <input type="text" class="form-control" value="{{user.username}}" readonly>
+              </div>
+            </div>
             <div class="col-6">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">start date</span>
+                <span class="input-group-text" id="basic-addon2">name</span>
+                <input type="text" class="form-control" name="first_name" value="{{user.first_name}}">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">last name</span>
+                <input type="text" class="form-control" name="last_name" value="{{user.last_name}}">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon6">email</span>
+                <input type="email" class="form-control" value="{{user.email}}" name="email">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">start date</span>
                 <input type="date" class="form-control" name="start_date">
               </div>
             </div>
             <div class="col-6">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon2">end date</span>
+                <span class="input-group-text" id="basic-addon5">end date</span>
                 <input type="date" class="form-control" name="end_date">
               </div>
             </div>

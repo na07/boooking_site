@@ -38,6 +38,6 @@ def login_page(request:HttpRequest) -> HttpResponse:
 
 @login_required
 def profile_page(request:HttpRequest) -> HttpResponse:
-    bookings = Booking.objects.filter(user=request.user)
+    bookings = Booking.objects.filter(user=request.user).order_by("-created_at")
     return render(request, "accounts/profile.html", {"bookings": bookings})
 
