@@ -28,7 +28,7 @@ class Booking(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    confirmed = models.BooleanField(default=False)
+    confirmed = models.BooleanField()
     activation_token = models.CharField(max_length=16, null=True, blank=True)
 
 
